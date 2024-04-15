@@ -16,6 +16,6 @@ router.get('/', (req, res) => {});
 router.delete('/:id', (req, res) => {});
 
 // 장바구니 책 조회
-router.get('/items', (req, res) => {});
+router.get('/items/:id', (req, res) => {});
 
 module.exports = router;
