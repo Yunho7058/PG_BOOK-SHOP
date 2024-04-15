@@ -1,24 +1,23 @@
 const express = require('express');
-//const conn = require('../mariadb');
 //const { body, validationResult, param } = require('express-validator');
 const router = express.Router();
+const {
+  singup,
+  login,
+  pwdReset,
+  pwdResetRequst,
+} = require('../controller/UserController');
 //let jwt = require('jsonwebtoken');
 let dotenv = require('dotenv');
 router.use(express.json()); //json 형태로 사용
 dotenv.config();
 
-// 회원가입
-router.post('/singup', (req, res) => {
-  res.json('회원가입');
-});
+router.post('/singup', singup);
 
-// 로그인
-router.post('/login', (req, res) => {});
+router.post('/login', login);
 
-// 비밀번호 초기화 요청
-router.post('/reset', (req, res) => {});
+router.post('/reset', pwdResetRequst);
 
-// 비밀번호 초기화
-router.put('/reset', (req, res) => {});
+router.put('/reset', pwdReset);
 
 module.exports = router;
