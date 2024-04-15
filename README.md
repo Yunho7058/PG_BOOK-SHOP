@@ -7,12 +7,8 @@
   2. 각 파일 모듈화 (users.js, carts.js, oreders.js, likes.js, books.js)
   3. DB 생성후 users Table 생성
 
-  <details>
-<summary>접기/펼치기 버튼</summary>
-<div markdown="1">
 
 Express base 구조
-
     1. Bin 폴더 -> www -> 포트 번화 등과 같은 웹 서버를 구축하는데 필요한 설정 데이터가 정의되어있는 파일
         -> .env 파일과 같은 설정 값을 가지고 에러처리 기타 추가 설정을 해주는 파일
     2. node_moduls : Node.js, Express 에 필요한 모듈들이 설치되어있는 폴더
@@ -30,13 +26,13 @@ Express base 구조
     5. npm i mysql2 : db sql문
 
 코드 작성
-    1. app.js , .env 설정
-    2. routes 폴더 생성후 users.js 작성
-        연결되는지 확인, postman도 확인
-    3. 각 필요한 파일 모듈화 진행
+    1. app.js 초기설정 및 routing 연결
+    2. .env 개발환결 설정 
+    3. routes 폴더 생성후 users.js, oreders.js, likes.js, carts.js, books.js 파일 생성
+    4. 각 파일 API 기초 코드 작성 -> 서버 연결되는지 확인완료, postman 확인완료
+    5. 각 필요한 파일 모듈화 진행후 app.js 연결
+    6. BOOK-SHOP 스키마 생성 후 users table 생성
 
-</div>
-</details>
 
 
 
