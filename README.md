@@ -2,6 +2,39 @@
 
 #### 각폴더/txt폴더 날짜별.txt 배운내용 간략히 작성 하였습니다.
 
+## 7주차 5파트 학습내용(0412)
+1. 유저 API 로직 작성
+### txt 내용
+
+#### 카데고리 조인해서 클라이언트에 보내주기
+  1. db 포링키 연결
+  2. SELECT * FROM books LEFT JOIN category ON books.category_id = category.id; 
+  3. category 테이블 name 을 category_name 변경후 클라이언트 보기 편하게 보내주기
+  4. 스키마 설계 꾸준히 수정하기
+
+#### db 시간 범위 구현하기
+  1. 시간 더하기 DATE_ADD(기준날짜,INTERVAL xxx)
+  2. 시간 뺴기 DATE_SUB(기준날짜,INTERVAL xxx)
+
+##### ex) sql문
+  SELECT DATE_ADD("2024-04-10",INTERVAL 1 MONTH) -> 원하는 날짜 <br/>
+  SELECT DATE_ADD(NOW(),INTERVAL 1 MONTH) -> 지금 날짜 <br/>
+  SELECT * FROM books WHERE pub_date BETWEEN DATE_SUB(NOW(),INTERVAL 6 MONTH) AND NOW() <br/>
+  (북 테이블에 있는 [펍 데이 조건은 범위지정을위해(BETWEEN) 오늘부터 한달 날짜] 데이터를 뽑아줘 )
+
+#### 데이터베이스 페이징(paging)
+  -. 모든 데이터를 한번에 보내기에는 부담이 될수 있기때문에 일정수량만 보내주기(클라이어단에서는 무한스크롤 구현 가능) <br/>
+    SELECT * FROM books LIMT X OFFSET Y -> x=1,y=5 일때 <br/>
+    LIMT -> 출력할 행의 수 <br/>
+    OFFSET ->  시작지점(= 현제 페이지, 사용자가 누를는 페이지 <1,2,3,4,5>) <br/>
+    ex) <br/>
+    LIMT         : 3 <br/>
+    CURRENTPAGE  : 1,2,3 ... <br/>
+    OFFSET       : 0,3,6 .... <br/>
+
+#### 코드 작성
+  1. BookController.js 전체도서 조회, 카데고리조회, 신간 API 하나의 로직으로 통합
+
 ## 7주차 4파트 학습내용(0411)
 1. 유저 API 로직 작성
 ### txt 내용
