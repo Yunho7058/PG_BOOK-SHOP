@@ -9,10 +9,12 @@ dotenv.config();
 
 // 좋아요 추가
 router.post('/:id', (req, res) => {
-  res.json('회원가입');
+ // db에 추가하기
 });
 
 // 삭제
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', (req, res) => {
+  
+});
 
 module.exports = router;
