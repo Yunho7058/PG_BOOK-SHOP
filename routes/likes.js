@@ -6,15 +6,10 @@ const router = express.Router();
 let dotenv = require('dotenv');
 router.use(express.json()); //json 형태로 사용
 dotenv.config();
+const { likeAdd, likeRemove } = require('../controller/LikesController');
 
-// 좋아요 추가
-router.post('/:id', (req, res) => {
- // db에 추가하기
-});
+router.post('/', likeAdd);
 
-// 삭제
-router.delete('/:id', (req, res) => {
-  
-});
+router.delete('/:id', likeRemove);
 
 module.exports = router;

@@ -1,3 +1,33 @@
 LIKE API 구현
     1. db 관계 설정
     2. db 생성
+    3. 좋아요 테이블은 PK 없이 가능?
+    4. 현재까지는 JOIN 으로 합쳐서 두개의 테이브 보여줬는데 다른방법도 존재
+    -> SELECT count(*) FROM WHERE liked_book_id=1 -> 북 아이디 1번인건 좋아요가 몇개야?
+    이 문법을 북 테이블에 추가해야함
+    -> 다른방법은 서브 쿼리를 이용하여 테이블 컬럼 생성하기
+
+COUNT
+    이문법을 = SELECT count(*) FROM WHERE liked_book_id=1
+    SELECT *, (여기에 추가) AS likes FROM books
+    => SELECT *, (SELECT count(*) FROM WHERE liked_book_id=1) AS likes FROM books
+    => SELECT *, (SELECT count(*) FROM likes WHERE liked_book_id=books.id) AS likes FROM books
+    SELECT *,(새로운 추가할 컬러명) FROM books
+    => 서브 쿼리 추가하여 새로운 컬럼 추가하기
+JWT
+
+
+SET sql_safe_updates=0 -> 자동으로 업데이트 해줘
+setting -> sqlEditer -> safe update 체크 해제
+-> 이런식으로 안돼면 pk 추가하기
+좋아요 테이블에 있나 없나로 한 API 로직으로 합칠수 있지않을까?
+
+개별 도서 조회
+SELECT COUNT(*) FROM likes WHERE user_id=? AND liked_book_id=?
+SELECT EXISTS (SLEECT * FROM likes WHERE user_id=? AND liked_book_id=?)
+
+`SELECT (여기에 컬럼을 다 추가해서 중복되는 id 값 해결하기 or 테이블 컬럼 명칭 바꾸기),
+(SELECT count(*) FROM likes WHERE liked_book_id=books.id) AS likes,
+SELECT EXISTS (SLEECT * FROM likes WHERE user_id=? AND liked_book_id=?) AS liked 
+FROM books LEFT JOIN category ON books.category_id = category.[category_id]
+WHERE books.id=?;`,
