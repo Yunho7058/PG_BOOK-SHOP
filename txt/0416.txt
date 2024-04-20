@@ -1,0 +1,21 @@
+장바구니 API
+    장바구니 DB 만들기(FK연결)
+    controller 추가
+
+제약조건
+    -. 2번 이상 FK 설정시 유의하기 -> 이름 잘 짓기!! 
+    -. 규칙을 정해 이름을 짓기 (fk_기준_참조_키)
+    -. index (DB 에서 규칙을 정해 목록을 만듬)
+    테이블 이름 중복사 -> err 1016 발생
+
+SQL
+    장바구니 추가
+     INSERT INTO cartItems (book_id, quantity, user_id) VALUES (?, ?, ?);
+
+    장바구니 조회
+     SELECT cartItems.id, book_id, title, summary, quantity, price 
+     FROM cartItems LEFT JOIN books 
+     ON cartItems.book_id = books.id AND id IN (?);
+     ?통째로 배열 삽입 가능
+     
+
