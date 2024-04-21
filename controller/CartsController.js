@@ -42,7 +42,6 @@ const removeItem = (req, res) => {
     if (err) {
       throw err;
     }
-    // 만약 좋아요 테이블에 내가 좋아요 누름 테이블 있을경우
     res.status(StatusCodes.OK).json(resulst);
   });
 };

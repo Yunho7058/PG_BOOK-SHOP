@@ -1,0 +1,29 @@
+주문 API
+ controllerJs, DB 관계설정
+
+orderedBook / delivery / orders DB 만들기
+    주문 ID, 책 ID, 책 수량
+
+제약조건 생각하면서 FK 연결
+
+컨벤션 잡기 (나만의 약속? 규약?)
+    -> 코드작성, git 작성, DB 작성 등 나만의 규칙을 정하고 이름 짓기
+
+API 설계 문서 참고하면서 DB 데이터가 뭐부터 들어갈지 확인후 INSERT 하기
+
+INSERT INTO `Bookshop`.`delivery` (`address`, `receiver`, `contact`) VALUES ('서울시', '문윤호', '010-2222-3333');
+
+INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) 
+  VALUES (?, ?, ?, ?, ?);
+
+INSERT INTO orderedBook (order_id, book_id, quantity) VALUES (?, ?, ?);
+
+DB 에서 방금 INSERT 한 값 가져오는 방법
+1. LAST_INSERT_ID() : 시간차 공격 -> 오류가 날 경우가 있음
+2. MAX() -> 많이 사용 
+ ex) select max(id) FROM 테이블
+
+ 요청으로 오는 results 값에는 많은 정보가 담겨져 있다.
+ results.insertId 를 통해 insert 한 아이디를 알수가 있다.
+ 앞으로 API 코드를 작성할떄 insertId 부분을 많이 사용하지 않을까싶다.
+ 
