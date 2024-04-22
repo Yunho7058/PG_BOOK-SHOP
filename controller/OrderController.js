@@ -1,12 +1,20 @@
 //문윤호
-const conn = require('../mariadb');
+//const conn = require('../mariadb');
+const mariadb = require('mysql2/promise');
 const { StatusCodes } = require('http-status-codes');
 let dotenv = require('dotenv');
 dotenv.config();
 
-// INSERT INTO delivery (address, receiver, contact) VALUES (?, ?, ?);
+const order = async (req, res) => {
+  const conn = await mariadb.createConnection({
+    host: '127.0.0.1',
+    port: 3307,
+    user: 'root',
+    password: 'root',
+    database: 'Bookshop',
+    dateStrings: true,
+  });
 
-const order = (req, res) => {
   // firstBookTitle 클라언트야 요것도 추가로 보내줘
   const { items, delivery, totalQuantity, totalPrice, userId, firstBookTitle } =
     req.body;
@@ -15,7 +23,7 @@ const order = (req, res) => {
   let order_id;
   //const delivery_id = SELECT max(id) FROM delivery; -> 이런식으로 하려고 했지만
   //resulet insertId 를 알려줌
-  conn.query(
+  let [result] = await conn.query(
     sql,
     [delivery.address, delivery.receiver, delivery.userId],
     (err, results) => {
@@ -25,9 +33,9 @@ const order = (req, res) => {
       }
       //node와 db 서로 insert한 아이디를 알려줌 개꿀
       delivery_id = results.insertId;
-      return res.status(StatusCodes.OK).json(results);
     }
   );
+  console.log(result);
 
   /* 
   INSERT INTO orders (book_title, total_quantity, total_price, user_id, delivery_id) 
@@ -43,7 +51,6 @@ const order_id = SELECT max(id) FROM orders;*/
     }
     //node와 db 서로 insert한 아이디를 알려줌 개꿀
     order_id = results.insertId;
-    return res.status(StatusCodes.OK).json(results);
   });
   // 벌크 인설트 2중 배열
   sql = `INSERT INTO orderedBook (order_id, book_id, quantity) VALUES (?, ?, ?);`;
