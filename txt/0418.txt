@@ -1,0 +1,74 @@
+주문하기 API
+    req.body 담겨오는 데이터
+        {
+            "items" : [{"book_id":1,"quantity":3},{"book_id":3,"quantity":13}]
+            ,
+            "delivery": {
+                "address" :"경기도 시흥시",
+                "receiver" : "문윤홍",
+                "contact" : "010-7777-7777"
+            },
+            "firsBookTitle":"ex유리구두",
+            "totalQunatuty": 2,
+            "totalPrice": 30000,
+            "userId": 1
+        }
+    주문하기 API 순서
+        1. 주문 주소정보 db 저장 후 그테이블 주소 아이디값 보관
+        2. 주소 아이디값 + 주문 책 정보 저장 후 그 테이블 주문 책 아이디 보관
+        3. 주소 아이디값 + 주문 책 아이디값 주문책 테이블에 저장
+        -> 맨처음 로직은 동기처리 되어 아이디값이 할당되지 않는 상태에서 넘어감
+        -> 그래서 비동기 요청이 필요!
+
+비동기 요청(논 블로킹 i/o)
+    NodeJs 는 싱글 스레드 이기때문에 비동기 처리를 따로 해줘야 한다.
+    -> 한 작업을 완벽히 끝내고 다음 작업 시작하기
+    -> 이제 까지는 qury()문 덕에 다음 로직을 바로바로 실행함
+    비동기 발생(setTime(), setInterval(),qury()문 )
+    -> 지금은 변수에 값을 담아야 하기때문에 관리가 필요
+
+비동기 발생
+    함수하나를 실행하고 기다리지 않고 다음 로직 실행함
+비동기 처리
+    함수하느를 실행하고 기다리고 다음 로직 실행
+
+비동기 처리 방법
+    1. 콜백함수
+    2. promise(resolve,reject)
+    3. then, catch
+    4. async, await -> 위에 있는 항목들에 단점을 극복해서 나온 문법 (콜백 지옥, 가독성)
+
+promise : 약속을 지키는 친구
+    const promise = new Promise((resolve,reject)=>{
+        executor : 작업 내용
+        성공시 -> resolve
+        실패시 -> reject
+        setTimeout(()=>resolve('완료'),3000)
+    })
+
+    promise.then(성공콜백함수(result),에러콜백함수) : promise 내장 함수, 너 성공하면 불러줘
+    -> 성공 콜백함수 result안에 promise.resolve 가 보냄 '완료' 가 들어있음
+    => 즉 promise 안에 setTimeout 함수가 발동하고 promise.then 함수가 발동됨
+    -> 이게 비동기 처리
+    -> 함수가 하나일때는 갈끔하지만 안에 콜백함수를 넣고 넣고 하는 작업(promise-chain)하다보면 코드 가독성도 떨어지고 콜백 지옥이 발생한다.
+
+async, await
+    -. async 무조건 promise 객체를 만들고 반환함 Promise.resolve() 를 반환!
+    -. async 공간을 제공함, async 안에서 await를 사용하 비동기 처리를 여러번 가능 
+    -. await은 than 역할을 해줌, async 안에서만 동작함
+
+    asynce function (){
+        const result = await new Promise((resolve,reject)=>{
+            setTimeout(()=>resolve('완료'),3000)
+            })
+    }
+
+    우리는 3개의 쿼리를 작성 하려면 promise 로 작성할경우 .then() 이서 붙어 사용해야해서 코드 가독성이 떨어질수가 있다.
+    하지만 async,await를 사용하면 async 안에 한번에 작성 가능하다.
+    async 함수(){
+        let result1 = awaite 쿼리
+        let result2 = awaite 쿼리
+        let result3 = awaite 쿼리
+    }
+
+mariadb 비동기 처리 방법 블로깅 하기
