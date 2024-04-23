@@ -13,12 +13,11 @@ router.use(express.json()); //json 형태로 사용
 dotenv.config();
 
 // 결제하기(주문하기)
-router.post('/orders', order);
-
+router.post('/', order);
 // 주문목록 조회
-router.get('/orders', getOrderDetail);
+router.get('/', getOrders);
 
 // 주문목록 책 상세 조회
-router.get('/orders/:id', getOrders);
+router.get('/:id', getOrderDetail);
 
 module.exports = router;
