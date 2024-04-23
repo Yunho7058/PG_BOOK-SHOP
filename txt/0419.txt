@@ -1,0 +1,40 @@
+주문 API 비동기 처리
+    -. 비동기 처리하는 방식이 다양하므로 공식문서 참고하기
+    -. 현재 코드에서 2가지 방법사용
+        1. const [result] = conn.query(sql,values)
+        2. const [result] = conn.execute(sql,values)
+
+MySQL 데이터 삭제 방법
+    1. Delete : DELETE FROM 테이블명 (WHERE 조건)
+        조건 없으면 모든 행이 삭제되고 테이블은 남아있음
+    2. Drop : DROP TABLE 테이블명 (현업에서 조심해서 쓰기)
+        테이블 삭제
+    3. TRUNCATE
+        모든 행이 삭제되고 테이블은 남아있음
+        사용법 TRUNCATE "테이블명"
+
+    Delete vs TRUNCATE 차이
+        -. delete은 오토 아이디가 남아있음
+        -. TRUNCATE은 오토 아이디도 삭제된다
+            -> FK 연결 상태일 경우, 제약조건이 걸렸있을경우 (1701)
+                SET FORING_KEY_CHECKS = 0; -> 0으로 하면 안보겠다, 1로하면 다시 보겠다.
+
+query vs execute ?
+
+책을 사용자가 구매를하면 장바구니에서 구매한 책 삭제하기 -> 생각해보자
+    1. 구매한 북 아이디 리스트를 가지고
+    2. 장바구니 db 에서 비교하면서 삭제?
+    DELETE FROM cartItems WHERE id IN (?,?,?)
+    ? 은 구매한 ID
+
+    !! 여러 데이터를 sql문법을 보낼때 [] 감싸기
+
+주문 조회
+    SELECT orders.id, book_title, total_quantity, total_price, created_at, address,receiver,contact 
+    FROM orders LEFT JOIN delivery 
+    ON orders.delivery.id = delivery.id;
+    -> 사용하여 원하는 정보 테이블로 만들어 보내주기
+
+카멜케이스 vs 스네이크 케이스 -> 하나정해 사용하기
+
+주문 상세 정보 조회
