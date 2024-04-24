@@ -1,0 +1,63 @@
+코드 전체적인 점검
+로그인 Api
+    토큰 쿠키에 담아 보내기
+
+사용자가 이벤트시 권한이 있는지 확인하고 응답 던져주기
+    -. 권한은 JWT 확인
+    -. 이제까지는 req.body 에 userId 확인함
+    -. 이제는 req.header에 cookie JWT 확인하여 권한 부여하기
+    
+지난 쿠키 JWT토큰을 계속 들고다님 -> 삭제할때까지?
+req-headers 에 Authorization 항목 만들고 쿠기 넣고 보내기
+
+좋아요 API
+    유저 아이디를 바디가 아닌 쿠키에 토큰값을 이용하여 유저 아이디 가져오기
+
+expiresin -> 토큰 유효 시간
+    expiresIn
+    const token = jwt.sign(
+        { id: loginUser.id, email: loginUser.email },
+        process.env.PRIVATE_KEY,
+        {
+          expiresIn: '5m',
+          issuer: 'yunho',
+        }
+      );
+
+JWT 예외 처리
+    if/else
+    1) tokenExpiredError : 유효기간 만료 에러
+    2) JsonWebTokenError : 토근자체에 문제 에러
+
+try..catch 란
+    개발자가 (수많은 에러)(예상하지 못한 에러)를 처리해주는 문법(실수, 사용자 잘못입력,디비 응답)
+    if(실수){
+    }eise if(실수){}eise if(실수){}eise if(실수){}eise if(실수){}eise if(실수){}
+    => 복잡하고 가독성 떨어짐
+
+    try 구문
+    try{
+        // 로직
+    }catch(err){
+        // err 처리
+    }
+    try 구문을 실행하다가 err가 발생하면 catch로 빠져나감(err와 같이)
+    if문가 다르게 분기를 안해줘도 다양한 err 가 발생해도 catch가 잡아줌
+
+에러 객체
+    try{}
+    catch(err){
+        err 객체
+    }
+    JS 내장 err 객체를 담아있다.(우리가 만들수도 있음)
+
+throw 연산자
+    에러를 발생시키는 연산자
+
+    throw 에러 객체
+    ex)
+    let user = {name:'윤호'}
+    console.log(user.email) // undefined
+    -> 내가 원하는건 undefined가 아니라 err가 났으면 좋겠어 할때 사용
+
+instanceOf
