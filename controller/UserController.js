@@ -40,7 +40,7 @@ const login = (req, res) => {
       .toString('base64');
     if (loginUser && loginUser.password === hashPwd) {
       const token = jwt.sign(
-        { email: loginUser.email },
+        { id: loginUser.id, email: loginUser.email },
         process.env.PRIVATE_KEY,
         {
           expiresIn: '5m',
@@ -53,10 +53,6 @@ const login = (req, res) => {
         //token: token,
       });
       console.log(token);
-    } else {
-      res.status(StatusCodes.UNAUTHORIZED).json({
-        message: '아이디 또는 비밀번호를 확인해주세요.',
-      });
     }
   });
 };
