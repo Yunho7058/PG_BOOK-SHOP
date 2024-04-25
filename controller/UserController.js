@@ -20,12 +20,15 @@ const singup = (req, res) => {
     [email, hashPwd, salt],
     (err, results) => {
       if (err) {
-        //res.status(StatusCodes.BAD_REQUEST).end()
-        throw err;
+        return res.status(StatusCodes.BAD_REQUEST).end();
       }
-      return res.status(StatusCodes.CREATED).json({
-        message: `${email}님 환영합니다.`,
-      });
+      if (results.affectedRows) {
+        return res.status(StatusCodes.CREATED).json({
+          message: `${email}님 환영합니다.`,
+        });
+      } else {
+        return res.status(StatusCodes.BAD_REQUEST).end();
+      }
     }
   );
 };

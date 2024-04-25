@@ -5,20 +5,7 @@ const { StatusCodes } = require('http-status-codes');
 let dotenv = require('dotenv');
 dotenv.config();
 const ensureAuthorization = require('../auth');
-/*
- let authorization = ensureAuthorization(req, res);
-  if (authorization instanceof jwt.TokenExpiredError) {
-    res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: '로그인이 만료되었습니다.' });
-  } else if (authorization instanceof jwt.JsonWebTokenError) {
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: '잘못된 토큰 입니다.' });
-  } else {
-    let userId = authorization.id;
-  }
-*/
+
 const likeAdd = (req, res) => {
   /*좋아요 눌렀을때
     1. 사용자가 아이디랑 북 아이디 보내줌
