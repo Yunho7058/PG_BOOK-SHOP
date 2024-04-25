@@ -2,10 +2,7 @@
 const conn = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
 let jwt = require('jsonwebtoken');
-let dotenv = require('dotenv');
-const { json } = require('express');
 const ensureAuthorization = require('../auth');
-dotenv.config();
 
 const getAllItem = (req, res) => {
   const { selected } = req.body;
@@ -33,12 +30,12 @@ const getAllItem = (req, res) => {
     conn.query(sql, values, (err, results) => {
       if (err) {
         res.status(StatusCodes.BAD_REQUEST).end();
-        //throw err;
       }
       return res.status(StatusCodes.OK).json(results);
     });
   }
 };
+
 const addItem = (req, res) => {
   const { bookId, quntity } = req.body;
   let authorization = ensureAuthorization(req, res);
@@ -58,7 +55,6 @@ const addItem = (req, res) => {
       (err, results) => {
         if (err) {
           res.status(StatusCodes.BAD_REQUEST).end();
-          //throw err;
         }
         return res.status(StatusCodes.OK).json(results);
       }
